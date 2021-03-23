@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import config from "../config.js";
 
 export const authContext = React.createContext({});
-
-const apiUrl =
-  process.env.NODE_ENV === "production"
-    ? process.env.REACT_APP_PROD_API_URL
-    : process.env.REACT_APP_DEV_API_URL;
 
 export default function Auth({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -16,7 +12,7 @@ export default function Auth({ children }) {
   useEffect(() => {
     async function checkAuth() {
       await axios
-        .post(`${apiUrl}/accounts/refresh-token`, null, {
+        .post(`${config.api_url}/accounts/refresh-token`, null, {
           withCredentials: true,
         })
         .then(function (response) {
@@ -66,7 +62,7 @@ export default function Auth({ children }) {
 
         if (
           (error.response.status === 401 || error.response.status === 400) &&
-          originalRequest.url === `${apiUrl}/accounts/refresh-token`
+          originalRequest.url === `${config.api_url}/accounts/refresh-token`
         ) {
           console.log("axios log out");
           delete axios.defaults.headers.common["Authorization"];
@@ -79,7 +75,7 @@ export default function Auth({ children }) {
         if (error.response.status === 401 && !originalRequest._retry) {
           originalRequest._retry = true;
           return axios
-            .post(`${apiUrl}/accounts/refresh-token`, null, {
+            .post(`${config.api_url}/accounts/refresh-token`, null, {
               withCredentials: true,
             })
             .then((res) => {
@@ -112,7 +108,7 @@ export default function Auth({ children }) {
 
   async function logout() {
     await axios
-      .post(`${apiUrl}/accounts/revoke-token`, null, {
+      .post(`${config.api_url}/accounts/revoke-token`, null, {
         withCredentials: true,
       })
       .then(function (response) {

@@ -3,13 +3,9 @@ import axios from "axios";
 import { Redirect, Link } from "react-router-dom";
 import { authContext } from "../../contexts/AuthContext";
 import { Helmet } from "react-helmet";
+import config from "../../config.js";
 
 function Passwordreset({ match }) {
-  const apiUrl =
-    process.env.NODE_ENV === "production"
-      ? process.env.REACT_APP_PROD_API_URL
-      : process.env.REACT_APP_DEV_API_URL;
-
   const { isAuthenticated } = useContext(authContext);
   const [isloading, setisloading] = useState(false);
   const [usermsg, setUsermsg] = useState("");
@@ -21,7 +17,10 @@ function Passwordreset({ match }) {
     setisloading(true);
     //console.log(match.params.token);
     axios
-      .get(`${apiUrl}/accounts/passwordreset/${match.params.token}`, null)
+      .get(
+        `${config.api_url}/accounts/passwordreset/${match.params.token}`,
+        null
+      )
       .then(function (response) {
         setisisTokenOk(true);
         setisloading(false);
@@ -30,7 +29,7 @@ function Passwordreset({ match }) {
         setisisTokenOk(false);
         setisloading(false);
       });
-  }, [apiUrl, match.params.token]);
+  }, [match.params.token]);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -41,9 +40,13 @@ function Passwordreset({ match }) {
       let dataObj = { pass: userPass };
 
       axios
-        .post(`${apiUrl}/accounts/passwordreset/${match.params.token}`, dataObj, {
-          withCredentials: true,
-        })
+        .post(
+          `${config.api_url}/accounts/passwordreset/${match.params.token}`,
+          dataObj,
+          {
+            withCredentials: true,
+          }
+        )
         .then(function (response) {
           if (response.data.message) {
             setIsPasswordChange(true);
@@ -72,7 +75,7 @@ function Passwordreset({ match }) {
 
   return (
     <>
-    <Helmet>
+      <Helmet>
         <title>Password reset</title>
       </Helmet>
       {isAuthenticated && <Redirect to="/" />}

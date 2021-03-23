@@ -13,11 +13,9 @@ import Confirmation from "./pages/confirmation/Confirmation.js";
 import Forgotpassword from "./pages/forgotpassword/Forgotpassword.js";
 import Passwordreset from "./pages/passwordreset/Passwordreset.js";
 import Myaccount from "./pages/myaccount/Myaccount.js";
-
 import Navbar from "./_components/Navbar.js";
 import PrivateRoute from "./_components/PrivateRoute.js";
 //import Dashboard from "./admin/Dashboard.js";
-
 import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
@@ -27,8 +25,6 @@ import AuthProvider from "./contexts/AuthContext.js";
 
 function App() {
   //const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-  //const mainPrimaryColor = darkState ? orange[500] : lightBlue[500];
-  //const mainSecondaryColor = darkState ? deepOrange[900] : deepPurple[500];
   const [darkState, setDarkState] = useLocalStorage("theme", false);
 
   const theme = React.useMemo(
@@ -72,7 +68,7 @@ function App() {
                 <Route exact path="/" component={Home} />
                 <Route path="/about" component={About} />
                 <Route path="/contactus" component={ContactUs} />
-                <Route path="/termsandprivacy" component={TermsAndPrivacy} />               
+                <Route path="/termsandprivacy" component={TermsAndPrivacy} />
                 <Route path="/parkingnear" component={ParkingNear} />
                 <Route path="/signin" component={Signin} />
                 <Route path="/signup" component={Signup} />

@@ -21,10 +21,10 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import DirectionsIcon from "@material-ui/icons/Directions";
 import Button from "@material-ui/core/Button";
+import CloseIcon from "@material-ui/icons/Close";
+import IconButton from "@material-ui/core/IconButton";
 
 function MapView(props) {
-  //const latestProps = useRef(props);
-
   const mapContainer = useRef(null);
   const overlay_el = useRef(null);
   const [popuptext, setPopuptext] = useState("");
@@ -34,29 +34,23 @@ function MapView(props) {
   const oData = props.data;
   const oUserCurrentLat = props.UserCurrentLat;
   const oUserCurrentLon = props.UserCurrentLon;
-
-  // useEffect(() => {
-  //   latestProps.current = props;
-  // },[props]);
+  const map = useRef(null);
 
   useEffect(() => {
-    let map;
-
     function InitMap() {
       // let oRad = latestProps.current.rad;
       // let oData = latestProps.current.data;
-
       // let UserCurrentLat = latestProps.current.UserCurrentLat;
       // let UserCurrentLon = latestProps.current.UserCurrentLon;
 
-      let ZoomCalc = 16;
-      if (oRad <= 200) {
-        ZoomCalc = 18;
-      } else if (oRad > 200 && oRad <= 500) {
-        ZoomCalc = 16;
-      } else if (oRad > 500) {
-        ZoomCalc = 14;
-      }
+      // let ZoomCalc = 16;
+      // if (oRad <= 200) {
+      //   ZoomCalc = 18;
+      // } else if (oRad > 200 && oRad <= 500) {
+      //   ZoomCalc = 16;
+      // } else if (oRad > 500) {
+      //   ZoomCalc = 14;
+      // }
 
       var fill = new Fill({ color: "blue" });
 
@@ -101,12 +95,14 @@ function MapView(props) {
         arr_Parkings_points.push(temp_Point);
       }
 
-      //adder Point
-      var Userp1 = new Feature({
-        geometry: new Point([oUserCurrentLon, oUserCurrentLat]),
-      });
-      Userp1.setStyle(UserpointStyle);
-      arr_Parkings.push(Userp1);
+      if (oUserCurrentLon != null && oUserCurrentLat != null) {
+        //adder Point
+        var Userp1 = new Feature({
+          geometry: new Point([oUserCurrentLon, oUserCurrentLat]),
+        });
+        Userp1.setStyle(UserpointStyle);
+        arr_Parkings.push(Userp1);
+      }
 
       //calc points avg
       let oGeosAvg = GeosAvg(arr_Parkings_points);
@@ -125,7 +121,7 @@ function MapView(props) {
         stopEvent: false,
       });
 
-      map = new OlMap({
+      map.current = new OlMap({
         target: mapContainer.current,
         layers: [
           new TileLayer({
@@ -133,29 +129,34 @@ function MapView(props) {
           }),
           vectorLayer,
         ],
-        overlays: [overlay],
+        //overlays: [overlay],
         view: new OlView({
           projection: "EPSG:4326",
           center: [oGeosAvg.longitude, oGeosAvg.latitude], //[34.77392, 32.05202],
-          zoom: ZoomCalc,
+          //zoom: ZoomCalc,
         }),
       });
 
-      map.on("click", function (event) {
-        map.forEachFeatureAtPixel(event.pixel, function (feature, layer) {
-          //console.log(feature.values_.geometry.flatCoordinates[1]); //console.log(layer);
-          if (feature.values_.name) {
-            overlay.setPosition(event.coordinate);
+      map.current.on("click", function (event) {
+        map.current.forEachFeatureAtPixel(
+          event.pixel,
+          function (feature, layer) {
+            //console.log(feature.values_.geometry.flatCoordinates[1]); //console.log(layer);
+            if (feature.values_.name) {
+              overlay.setPosition(event.coordinate);
 
-            setPopuptext(
-              `https://www.waze.com/livemap/directions?navigate=yes&latlng=${feature.values_.geometry.flatCoordinates[1]},${feature.values_.geometry.flatCoordinates[0]}`
-            );
-            setPopupinfo(feature.values_.name.ktovet);
-          } else {
-            console.log("1111");
+              setPopuptext(
+                `https://www.waze.com/livemap/directions?navigate=yes&latlng=${feature.values_.geometry.flatCoordinates[1]},${feature.values_.geometry.flatCoordinates[0]}`
+              );
+              setPopupinfo(feature.values_.name.ktovet);
+
+              map.current.addOverlay(overlay);
+            }
           }
-        });
+        );
       });
+
+      map.current.getView().fit(vectorSource.getExtent(),{ padding: [40, 40, 40, 40], constrainResolution: false });
 
       //console.log(olmapo.getView().getCenter());
       //olmapo.getView().getZoom();
@@ -167,9 +168,19 @@ function MapView(props) {
     InitMap();
 
     return function cleanup() {
-      map.dispose();
+      map.current.dispose();
     };
-  }, [oData,oRad,oUserCurrentLat,oUserCurrentLon]);
+  }, [oData, oRad, oUserCurrentLat, oUserCurrentLon]);
+
+  const closepopup = () => {
+    map.current
+      .getOverlays()
+      .getArray()
+      .slice(0)
+      .forEach(function (overlay) {
+        map.current.removeOverlay(overlay);
+      });
+  };
 
   return (
     <Box>
@@ -177,8 +188,17 @@ function MapView(props) {
 
       <Box ref={overlay_el} mt={2}>
         <Paper>
-          <Box p={3}>
-            <Typography variant="h5" gutterBottom align="center">
+          <Box p={1}>
+            <IconButton
+              aria-label="close"
+              onClick={closepopup}
+              variant="contained"
+            >
+              <CloseIcon />
+            </IconButton>
+          </Box>
+          <Box p={2}>
+            <Typography variant="h6" gutterBottom align="center">
               {popupinfo}
             </Typography>
           </Box>

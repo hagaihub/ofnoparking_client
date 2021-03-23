@@ -47,17 +47,17 @@ function About() {
               </h2>
               <p className={classes.abouttext}>
                 Many municipalities have begun enforcing illegal parking of
-                two-wheeled vehicles And at the same time, began to provide
-                dedicated parking lots where parking is allowed legally. Out of
+                two-wheeled vehicles and at the same time, began to provide
+                dedicated parking lots where parking is allowed legally. out of
                 this need we set up OfnoParking - fast and efficient detection
-                of two-wheeled parking spots. Before use, it is recommended to
+                of two-wheeled parking spots. before use, it is recommended to
                 review the{" "}
                 <Link to="/termsandprivacy">
                   terms of use and privacy policy
                 </Link>
                 .
                 <br />
-                This website is a non-profit social enterprise. If you need to
+                this website is a non-profit social enterprise. If you need to
                 contact us on any subject,{" "}
                 <Link to="/contactus">you are welcome</Link> :)
               </p>

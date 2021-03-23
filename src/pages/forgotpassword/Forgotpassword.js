@@ -13,6 +13,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { Helmet } from "react-helmet";
+import config from "../../config.js";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -41,11 +42,6 @@ function Forgotpassword({ history }) {
   const [usermsg, setUsermsg] = useState("");
   const [useremail, setUseremail] = useState("");
 
-  const apiUrl =
-    process.env.NODE_ENV === "production"
-      ? process.env.REACT_APP_PROD_API_URL
-      : process.env.REACT_APP_DEV_API_URL;
-
   const onSubmit = async (e) => {
     e.preventDefault();
     setisloading(true);
@@ -54,7 +50,7 @@ function Forgotpassword({ history }) {
       let dataObj = { email: useremail };
 
       axios
-        .post(`${apiUrl}/accounts/forgotpassword`, dataObj, {
+        .post(`${config.api_url}/accounts/forgotpassword`, dataObj, {
           withCredentials: true,
         })
         .then(function (response) {

@@ -11,6 +11,7 @@ import ListIcon from "@material-ui/icons/List";
 import MapIcon from "@material-ui/icons/Map";
 import Link from "@material-ui/core/Link";
 import { Helmet } from "react-helmet";
+import config from "../../config.js";
 
 function Favorites() {
   const [resultdata, setResultdata] = useState(null);
@@ -19,17 +20,12 @@ function Favorites() {
   const [displaytype, setDisplayType] = useState(1);
 
   useEffect(() => {
-    const apiUrl =
-      process.env.NODE_ENV === "production"
-        ? process.env.REACT_APP_PROD_API_URL
-        : process.env.REACT_APP_DEV_API_URL;
-
     setisloading(true);
     setUsererrormsg("");
 
     try {
       axios
-        .get(`${apiUrl}/cities/GetUserFavoritesParkingsByUserID`, {
+        .get(`${config.api_url}/cities/GetUserFavoritesParkingsByUserID`, {
           withCredentials: true,
         })
         .then(function (response) {
@@ -53,22 +49,25 @@ function Favorites() {
         })
         .catch(function (error) {
           setisloading(false);
-          setUsererrormsg("Oops..we encountered a problem. Please try again later");
+          setUsererrormsg(
+            "Oops..we encountered a problem. Please try again later"
+          );
         });
     } catch (err) {
       if (err.response.status === 500) {
         console.log("There was a problem with the server");
-        setUsererrormsg("Oops..we encountered a problem. Please try again later");
+        setUsererrormsg(
+          "Oops..we encountered a problem. Please try again later"
+        );
       } else {
         console.log(err.response.data.msg);
-        setUsererrormsg("Oops..we encountered a problem. Please try again later");
+        setUsererrormsg(
+          "Oops..we encountered a problem. Please try again later"
+        );
       }
     }
 
-    return () => {
-       
-    };
-
+    return () => {};
   }, []);
 
   return (

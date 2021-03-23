@@ -18,6 +18,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import moto_bg_1 from "../../images/moto_bg_1.jpg";
 import { Helmet } from "react-helmet";
+import config from "../../config.js";
 
 function Copyright() {
   return (
@@ -71,11 +72,6 @@ function Signup() {
 
   const { isAuthenticated } = useContext(authContext);
 
-  const apiUrl =
-    process.env.NODE_ENV === "production"
-      ? process.env.REACT_APP_PROD_API_URL
-      : process.env.REACT_APP_DEV_API_URL;
-
   const formdata_obj = {
     email: "",
     password: "",
@@ -118,7 +114,7 @@ function Signup() {
     }
 
     axios
-      .post(`${apiUrl}/accounts/register`, formData, {
+      .post(`${config.api_url}/accounts/register`, formData, {
         withCredentials: true,
       })
       .then(function (response) {

@@ -2,22 +2,21 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Redirect, Link } from "react-router-dom";
 import { authContext } from "../../contexts/AuthContext";
+import config from "../../config.js";
 
 function Confirmation({ match }) {
   const { isAuthenticated } = useContext(authContext);
   const [isloading, setisloading] = useState(false);
   const [isUserConfirmation, setisUserConfirmation] = useState(false);
 
-  const apiUrl =
-    process.env.NODE_ENV === "production"
-      ? process.env.REACT_APP_PROD_API_URL
-      : process.env.REACT_APP_DEV_API_URL;
-
   useEffect(() => {
     setisloading(true);
-    console.log(match.params.token)
+    console.log(match.params.token);
     axios
-      .get(`${apiUrl}/accounts/confirmation/${match.params.token}`, null)
+      .get(
+        `${config.api_url}/accounts/confirmation/${match.params.token}`,
+        null
+      )
       .then(function (response) {
         setisUserConfirmation(true);
         setisloading(false);
@@ -26,7 +25,7 @@ function Confirmation({ match }) {
         setisUserConfirmation(false);
         setisloading(false);
       });
-  }, [apiUrl, match.params.token]);
+  }, [match.params.token]);
 
   return (
     <>

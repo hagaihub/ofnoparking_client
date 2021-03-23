@@ -18,12 +18,13 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import HomeIcon from '@material-ui/icons/Home';
-import SearchIcon from '@material-ui/icons/Search';
-import InfoIcon from '@material-ui/icons/Info';
-import DescriptionIcon from '@material-ui/icons/Description';
-import FavoriteIcon from '@material-ui/icons/Favorite';
+import HomeIcon from "@material-ui/icons/Home";
+import SearchIcon from "@material-ui/icons/Search";
+import InfoIcon from "@material-ui/icons/Info";
+import DescriptionIcon from "@material-ui/icons/Description";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 import MessageIcon from "@material-ui/icons/Message";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,7 +46,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Navbar(props) {
-  const { logout, isAuthenticated, authUser } = useContext(authContext);
+  const { logout, isAuthenticated, authUser, isLoading } = useContext(
+    authContext
+  );
   const [anchorEl, setAnchorEl] = useState(null);
 
   const classes = useStyles();
@@ -88,10 +91,10 @@ function Navbar(props) {
   return (
     <div className={classes.root}>
       <AppBar
-        // style={{
-        //   background:
-        //     "linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 49%, rgba(0,96,255,1) 100%)",
-        // }}
+      // style={{
+      //   background:
+      //     "linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 49%, rgba(0,96,255,1) 100%)",
+      // }}
       >
         <Toolbar>
           <IconButton
@@ -183,7 +186,9 @@ function Navbar(props) {
             </Button>
           </Typography>
 
-          {isAuthenticated ? (
+          {isLoading ? (
+            <CircularProgress color="inherit" size={30} />
+          ) : isAuthenticated ? (
             <div>
               <Button
                 color="inherit"
@@ -191,7 +196,8 @@ function Navbar(props) {
                 aria-haspopup="true"
                 onClick={handleClick}
               >
-                {authUser.email && authUser.email.substring(0, authUser.email.lastIndexOf("@"))}
+                {authUser.email &&
+                  authUser.email.substring(0, authUser.email.lastIndexOf("@"))}
               </Button>
 
               <Menu

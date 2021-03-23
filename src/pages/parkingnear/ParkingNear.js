@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import MapView from "../../_components/MapView.js";
 import ListView from "../../_components/ListView.js";
@@ -22,6 +22,7 @@ import Paper from "@material-ui/core/Paper";
 import MapIcon from "@material-ui/icons/Map";
 import ListIcon from "@material-ui/icons/List";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import config from "../../config.js";
 
 import { Helmet } from "react-helmet";
 
@@ -47,16 +48,12 @@ function ParkingNear() {
     inputValueCombo_address_list,
     setinputValueCombo_address_list,
   ] = useState([]);
+  const resultviewbox = useRef(null);
 
   const location_rout = useLocation();
 
   let UserCurrentLat;
   let UserCurrentLon;
-
-  const apiUrl =
-    process.env.NODE_ENV === "production"
-      ? process.env.REACT_APP_PROD_API_URL
-      : process.env.REACT_APP_DEV_API_URL;
 
   useEffect(() => {
     //console.log(location_rout.pathname); // result: '/parkingnear'
@@ -70,7 +67,7 @@ function ParkingNear() {
     try {
       setisloading(true);
       axios
-        .get(`${apiUrl}/cities/GetCities`)
+        .get(`${config.api_url}/cities/GetCities`)
         .then(function (response) {
           setddldata(response.data);
           setisloading(false);
@@ -86,7 +83,7 @@ function ParkingNear() {
       console.log("There was a problem with the server");
       setUsererrormsg("Oops..we encountered a problem. Please try again later");
     }
-  }, [apiUrl, location_rout]);
+  }, [location_rout]);
 
   function SetLocGPS() {
     let options = {
@@ -181,7 +178,7 @@ function ParkingNear() {
       setGlobalUserCurrentLon(UserCurrentLon);
 
       axios
-        .get(`${apiUrl}/cities/calcDistance`, {
+        .get(`${config.api_url}/cities/calcDistance`, {
           params: {
             cityid: ddlcityid,
             lat: UserCurrentLat,
@@ -207,6 +204,10 @@ function ParkingNear() {
           setResultdata(response.data.arr_parkings);
           setSelectedRad(radius);
           setisloading(false);
+          resultviewbox.current.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
         })
         .catch(function (error) {
           setisloading(false);
@@ -234,7 +235,7 @@ function ParkingNear() {
     setDdlcityName(index.props.children);
     try {
       axios
-        .get(`${apiUrl}/cities/GetCityStreetsNames/`, {
+        .get(`${config.api_url}/cities/GetCityStreetsNames/`, {
           params: {
             cityid: event.target.value,
           },
@@ -276,7 +277,7 @@ function ParkingNear() {
       setCombo_addressOpen(true);
     }
   };
-  
+
   const handleCombo_addressInputChange = (event, newInputValue) => {
     setinputValueCombo_address(newInputValue);
     if (newInputValue.length > 0) {
@@ -318,7 +319,9 @@ function ParkingNear() {
                       <>
                         <Grid item xs={12} sm={6} md={6}>
                           <FormControl variant="outlined" fullWidth>
-                            <InputLabel id="ddl_city_label" required>City</InputLabel>
+                            <InputLabel id="ddl_city_label" required>
+                              City
+                            </InputLabel>
                             <Select
                               label="City"
                               labelId="ddl_city_label"
@@ -414,7 +417,7 @@ function ParkingNear() {
                     </Grid>
                   </Grid>
 
-                  <Box mt={2}>
+                  <Box mt={2} ref={resultviewbox}>
                     {isloading && <LinearProgress />}
                     {!isloading && usererrormsg && usererrormsg}
                   </Box>

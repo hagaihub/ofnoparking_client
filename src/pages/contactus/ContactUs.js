@@ -15,6 +15,7 @@ import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
 import headerback from "../../images/76vR6cpTico-unsplash.jpg";
 import { Helmet } from "react-helmet";
+import config from "../../config.js";
 
 const useStyles = makeStyles((theme) => ({
   heroContent: {
@@ -44,11 +45,6 @@ function ContactUs() {
   };
   const [formData, setFormData] = useState(formdata_obj);
 
-  const apiUrl =
-    process.env.NODE_ENV === "production"
-      ? process.env.REACT_APP_PROD_API_URL
-      : process.env.REACT_APP_DEV_API_URL;
-
   const updateFormData = (event) =>
     setFormData({
       ...formData,
@@ -61,7 +57,7 @@ function ContactUs() {
 
     axios
       .post(
-        `${apiUrl}/messages/create`,
+        `${config.api_url}/messages/create`,
         {
           formData,
         },
@@ -83,7 +79,7 @@ function ContactUs() {
 
   return (
     <div className={classes.heroContent}>
-       <Helmet>
+      <Helmet>
         <title>Contact Us</title>
       </Helmet>
       <Container maxWidth="md">

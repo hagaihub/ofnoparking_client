@@ -25,6 +25,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import CloseIcon from "@material-ui/icons/Close";
 import Tooltip from "@material-ui/core/Tooltip";
 import { makeStyles } from "@material-ui/core/styles";
+import config from "../config.js";
 
 const useStyles = makeStyles((theme) => ({
   snackbarSuccessStyle: {
@@ -46,10 +47,7 @@ const useStyles = makeStyles((theme) => ({
 function ListView(props) {
   const classes = useStyles();
 
-  const apiUrl =
-    process.env.NODE_ENV === "production"
-      ? process.env.REACT_APP_PROD_API_URL
-      : process.env.REACT_APP_DEV_API_URL;
+   
 
   const [resParkingList, setResParkingList] = useState(props.data);
   const { isAuthenticated } = useContext(authContext);
@@ -84,7 +82,7 @@ function ListView(props) {
 
       axios
         .put(
-          `${apiUrl}/accounts/addfavoriteparkingtouser`,
+          `${config.api_url}/accounts/addfavoriteparkingtouser`,
           {
             parkingid: parkin_obj,
           },
@@ -122,7 +120,7 @@ function ListView(props) {
     fav_loader_ref.current[indexobj].style.display = "inline";
 
     axios
-      .delete(`${apiUrl}/accounts/removefavoriteparkingtouser/${parkin_obj}`, {
+      .delete(`${config.api_url}/accounts/removefavoriteparkingtouser/${parkin_obj}`, {
         withCredentials: true,
       })
       .then(function (response) {

@@ -21,7 +21,7 @@ import SearchIcon from "@material-ui/icons/Search";
 //import { useHistory } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import Divider from "@material-ui/core/Divider";
-import Count from "../../_components/Count.js";
+import NumberCounter from "../../_components/NumberCounter.js";
 //import ofno_about_img from "../../images/ofno_about.png";
 import { default as home_main_img } from "../../images/ofno_about.svg";
 
@@ -41,10 +41,9 @@ const useStyles = makeStyles((theme) => ({
     height: "auto",
     maxWidth: "900px",
   },
-  boxback: {
+  homebottomback: {
     height: "100vh",
-    maxHeight: "450px",
-    background: "linear-gradient(to bottom, #005c97, #363795)" 
+    background: "linear-gradient(to bottom, #005c97, #363795)",
   },
 }));
 
@@ -113,7 +112,7 @@ function Home() {
         </Box>
       </Container>
 
-      <div className={classes.boxback}>
+      <div className={classes.homebottomback}>
         <Divider />
         <Container maxWidth="lg">
           <Box mt={7}>
@@ -125,7 +124,12 @@ function Home() {
                   paragraph
                   className={classes.Typographybody}
                 >
-                  <Count label={"Parkings"} number={"520"} duration={"2"} />+
+                  <NumberCounter
+                    label={"Parkings"}
+                    number={"520"}
+                    duration={"2"}
+                  />
+                  +
                 </Typography>
               </Grid>
 

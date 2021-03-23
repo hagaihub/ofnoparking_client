@@ -23,17 +23,13 @@ import SnackbarContent from "@material-ui/core/SnackbarContent";
 
 import { authContext } from "../../contexts/AuthContext";
 import { Helmet } from "react-helmet";
+import config from "../../config.js";
 
 const useStyles = makeStyles((theme) => ({
   avatar: {
     backgroundColor: theme.palette.secondary.main,
   },
 }));
-
-const apiUrl =
-  process.env.NODE_ENV === "production"
-    ? process.env.REACT_APP_PROD_API_URL
-    : process.env.REACT_APP_DEV_API_URL;
 
 function Myaccount() {
   const classes = useStyles();
@@ -46,17 +42,12 @@ function Myaccount() {
   const { authUser } = useContext(authContext);
 
   useEffect(() => {
-    const apiUrl =
-      process.env.NODE_ENV === "production"
-        ? process.env.REACT_APP_PROD_API_URL
-        : process.env.REACT_APP_DEV_API_URL;
-
     setisloading(true);
     setUsererrormsg("");
 
     try {
       axios
-        .get(`${apiUrl}/accounts/getactivelogins`, {
+        .get(`${config.api_url}/accounts/getactivelogins`, {
           withCredentials: true,
         })
         .then(function (response) {
@@ -92,7 +83,7 @@ function Myaccount() {
     let dataObj = { token: refresh_tok };
 
     axios
-      .post(`${apiUrl}/accounts/revoke-token/`, dataObj, {
+      .post(`${config.api_url}/accounts/revoke-token/`, dataObj, {
         withCredentials: true,
       })
       .then(function (response) {

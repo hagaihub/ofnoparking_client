@@ -21,6 +21,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import moto_bg_1 from "../../images/moto_bg_1.jpg";
 import { Helmet } from "react-helmet";
+import config from "../../config.js";
 
 function Copyright() {
   return (
@@ -80,19 +81,18 @@ function Signin({ history }) {
 
   const { login, isAuthenticated } = useContext(authContext);
 
-  const apiUrl =
-    process.env.NODE_ENV === "production"
-      ? process.env.REACT_APP_PROD_API_URL
-      : process.env.REACT_APP_DEV_API_URL;
-
   const onSubmit = async (e) => {
     e.preventDefault();
     setisloading(true);
     try {
-      var dataObj = { email: username, password: userpass, istoremember: checked_rememberme};
-      
+      var dataObj = {
+        email: username,
+        password: userpass,
+        istoremember: checked_rememberme,
+      };
+
       axios
-        .post(`${apiUrl}/accounts/authenticate`, dataObj, {
+        .post(`${config.api_url}/accounts/authenticate`, dataObj, {
           withCredentials: true,
         })
         .then(function (response) {
@@ -139,7 +139,7 @@ function Signin({ history }) {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-            Sign in to your account
+              Sign in to your account
             </Typography>
             <form className={classes.form} onSubmit={onSubmit}>
               <TextField
@@ -147,6 +147,7 @@ function Signin({ history }) {
                 margin="normal"
                 required
                 fullWidth
+                inputProps={{ "data-testid": "test_email" }}
                 id="email"
                 label="Email Address"
                 name="email"
@@ -160,6 +161,7 @@ function Signin({ history }) {
                 margin="normal"
                 required
                 fullWidth
+                inputProps={{ "data-testid": "test_password" }}
                 name="password"
                 label="Password"
                 type="password"
@@ -185,6 +187,7 @@ function Signin({ history }) {
                   <Button
                     type="submit"
                     id="signsubmit"
+                    data-testid="signsubmit"
                     fullWidth
                     variant="contained"
                     color="primary"
