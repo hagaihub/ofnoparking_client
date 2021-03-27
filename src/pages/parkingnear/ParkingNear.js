@@ -35,7 +35,7 @@ function ParkingNear() {
   const [isloading, setisloading] = useState(false);
   const [displaytype, setDisplayType] = useState(1);
   //const [searchtext, setSearchtext] = useState("");
-  const [searchtextstreetnumber, setSearchtextstreetnumber] = useState("");
+  //const [searchtextstreetnumber, setSearchtextstreetnumber] = useState("");
   const [isAddress, setisAddress] = useState(true);
   const [ddlcityid, setDdlcityid] = useState("");
   const [ddlcityName, setDdlcityName] = useState("");
@@ -133,7 +133,7 @@ function ParkingNear() {
   async function GetGeoFromAddress() {
     if (inputValueCombo_address.length > 0 && isAddress) {
       const response = await axios.get(
-        `https://nominatim.openstreetmap.org/search?q=${inputValueCombo_address} ${searchtextstreetnumber} ${ddlcityName}&polygon_geojson=1&format=json&email=myemail@myserver.com`
+        `https://nominatim.openstreetmap.org/search?q=${inputValueCombo_address} ${ddlcityName}&polygon_geojson=1&format=json&email=myemail@myserver.com`
       );
       //console.log(response);
       return response;
@@ -340,7 +340,7 @@ function ParkingNear() {
                             </Select>
                           </FormControl>
                         </Grid>
-                        <Grid item xs={8} sm={4} md={4}>
+                        <Grid item xs={12} sm={6} md={6}>
                           <Autocomplete
                             id="address"
                             open={openCombo_address}
@@ -358,6 +358,7 @@ function ParkingNear() {
                                 {...params}
                                 label="Address"
                                 variant="outlined"
+                                placeholder="street name and number"
                                 required
                               />
                             )}
@@ -374,7 +375,7 @@ function ParkingNear() {
                             onChange={(e) => setSearchtext(e.target.value)}
                           /> */}
                         </Grid>
-                        <Grid item xs={4} sm={2} md={2}>
+                        {/* <Grid item xs={4} sm={2} md={2}>
                           <TextField
                             variant="outlined"
                             type="number"
@@ -392,7 +393,7 @@ function ParkingNear() {
                               setSearchtextstreetnumber(e.target.value)
                             }
                           />
-                        </Grid>
+                        </Grid> */}
                       </>
                     )}
 

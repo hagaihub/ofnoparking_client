@@ -43,7 +43,7 @@ const NumberCounter = (props) => {
   return (
     <>
       <span ref={ref}>
-        {label}: {count}
+        {label} {count}
       </span>
     </>
   );

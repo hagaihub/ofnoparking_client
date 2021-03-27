@@ -21,7 +21,7 @@ import DirectionsIcon from "@material-ui/icons/Directions";
 import Snackbar from "@material-ui/core/Snackbar";
 import SnackbarContent from "@material-ui/core/SnackbarContent";
 import CircularProgress from "@material-ui/core/CircularProgress";
-
+import Grid from "@material-ui/core/Grid";
 import CloseIcon from "@material-ui/icons/Close";
 import Tooltip from "@material-ui/core/Tooltip";
 import { makeStyles } from "@material-ui/core/styles";
@@ -46,8 +46,6 @@ const useStyles = makeStyles((theme) => ({
 
 function ListView(props) {
   const classes = useStyles();
-
-   
 
   const [resParkingList, setResParkingList] = useState(props.data);
   const { isAuthenticated } = useContext(authContext);
@@ -120,9 +118,12 @@ function ListView(props) {
     fav_loader_ref.current[indexobj].style.display = "inline";
 
     axios
-      .delete(`${config.api_url}/accounts/removefavoriteparkingtouser/${parkin_obj}`, {
-        withCredentials: true,
-      })
+      .delete(
+        `${config.api_url}/accounts/removefavoriteparkingtouser/${parkin_obj}`,
+        {
+          withCredentials: true,
+        }
+      )
       .then(function (response) {
         const newresParkingList = [...resParkingList];
         const found = newresParkingList.find(
@@ -198,50 +199,61 @@ function ListView(props) {
               />
 
               <Box>
-                <Box
-                  display="none"
-                  ref={(element) => (fav_loader_ref.current[index] = element)}
-                >
-                  <CircularProgress size={20} />
-                </Box>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={12} md={12}>
+                    <Box>
+                      <Box
+                        display="none"
+                        ref={(element) =>
+                          (fav_loader_ref.current[index] = element)
+                        }
+                      >
+                        <CircularProgress size={20} />
+                      </Box>
+                      {!parking.isfav ? (
+                        <Tooltip title="add to Favorites">
+                          <span>
+                            <IconButton
+                              aria-label="add to Favorites"
+                              onClick={handleAddToFavorites(parking._id, index)}
+                              variant="contained"
+                              color="default"
+                              disabled={favButtonDisabled}
+                            >
+                              <FavoriteIcon />
+                            </IconButton>
+                          </span>
+                        </Tooltip>
+                      ) : (
+                        <Tooltip title="Remove from Favorites">
+                          <span>
+                            <IconButton
+                              aria-label="Remove from Favorites"
+                              onClick={handleRemoveToFavorites(
+                                parking._id,
+                                index
+                              )}
+                              variant="contained"
+                              color="secondary"
+                              disabled={favButtonDisabled}
+                            >
+                              <FavoriteIcon />
+                            </IconButton>
+                          </span>
+                        </Tooltip>
+                      )}
+                    </Box>
 
-                {!parking.isfav ? (
-                  <Tooltip title="add to Favorites">
-                    <span>
-                      <IconButton
-                        aria-label="add to Favorites"
-                        onClick={handleAddToFavorites(parking._id, index)}
-                        variant="contained"
-                        color="default"
-                        disabled={favButtonDisabled}
-                      >
-                        <FavoriteIcon />
-                      </IconButton>
-                    </span>
-                  </Tooltip>
-                ) : (
-                  <Tooltip title="Remove from Favorites">
-                    <span>
-                      <IconButton
-                        aria-label="Remove from Favorites"
-                        onClick={handleRemoveToFavorites(parking._id, index)}
-                        variant="contained"
-                        color="secondary"
-                        disabled={favButtonDisabled}
-                      >
-                        <FavoriteIcon />
-                      </IconButton>
-                    </span>
-                  </Tooltip>
-                )}
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleNavLinkRow(parking.lat, parking.lon)}
-                  startIcon={<DirectionsIcon />}
-                >
-                  nav
-                </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleNavLinkRow(parking.lat, parking.lon)}
+                      startIcon={<DirectionsIcon />}
+                    >
+                      nav
+                    </Button>
+                  </Grid>
+                </Grid>
               </Box>
             </ListItem>
             <Divider variant="inset" component="li" />

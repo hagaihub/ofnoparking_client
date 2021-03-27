@@ -24,6 +24,9 @@ export default function Auth({ children }) {
           setIsLoading(false);
         })
         .catch(function (error) {
+          // if (error.response && error.response.status === 400) {
+          //   console.clear();
+          // }
           setIsAuthenticated(false);
           setauthUser({});
           setIsLoading(false);
@@ -74,6 +77,7 @@ export default function Auth({ children }) {
 
         if (error.response.status === 401 && !originalRequest._retry) {
           originalRequest._retry = true;
+
           return axios
             .post(`${config.api_url}/accounts/refresh-token`, null, {
               withCredentials: true,
@@ -119,7 +123,7 @@ export default function Auth({ children }) {
         window.localStorage.setItem("auth_out", new Date().toISOString());
       })
       .catch(function (error) {
-        console.log(error);
+        //console.log(error);
         delete axios.defaults.headers.common["Authorization"];
         setIsAuthenticated(false);
         setauthUser({});

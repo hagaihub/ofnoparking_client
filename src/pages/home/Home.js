@@ -124,12 +124,8 @@ function Home() {
                   paragraph
                   className={classes.Typographybody}
                 >
-                  <NumberCounter
-                    label={"Parkings"}
-                    number={"520"}
-                    duration={"2"}
-                  />
-                  +
+                  <NumberCounter label={""} number={"520"} duration={"2"} />+
+                  Parkings
                 </Typography>
               </Grid>
 
@@ -140,7 +136,7 @@ function Home() {
                   paragraph
                   className={classes.Typographybody}
                 >
-                  Cities: 3+
+                  3+ Cities
                 </Typography>
               </Grid>
             </Grid>
