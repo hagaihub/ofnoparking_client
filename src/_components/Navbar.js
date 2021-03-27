@@ -25,6 +25,8 @@ import DescriptionIcon from "@material-ui/icons/Description";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import MessageIcon from "@material-ui/icons/Message";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,6 +44,9 @@ const useStyles = makeStyles((theme) => ({
   },
   fullList: {
     width: "auto",
+  },
+  usernamestyle: {
+    fontSize: "12px",
   },
 }));
 
@@ -71,7 +76,7 @@ function Navbar(props) {
     setnavstate({ ...navstate, [anchor]: open });
   };
 
-  const handleClick = (event) => {
+  const handleOopenMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -194,10 +199,20 @@ function Navbar(props) {
                 color="inherit"
                 aria-controls="simple-menu"
                 aria-haspopup="true"
-                onClick={handleClick}
+                onClick={handleOopenMenuClick}
+                className={classes.usernamestyle}
+                endIcon={
+                  Boolean(anchorEl) ? (
+                    <ArrowDropUpIcon />
+                  ) : (
+                    <ArrowDropDownIcon />
+                  )
+                }
               >
                 {authUser.email &&
-                  authUser.email.substring(0, authUser.email.lastIndexOf("@"))}
+                  authUser.email
+                    .substring(0, authUser.email.lastIndexOf("@"))
+                    .substring(0, 12)}
               </Button>
 
               <Menu
