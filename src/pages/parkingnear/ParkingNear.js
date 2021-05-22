@@ -44,12 +44,10 @@ function ParkingNear() {
   const [globalUserCurrentLon, setGlobalUserCurrentLon] = useState(0);
   const [inputValueCombo_address, setinputValueCombo_address] = useState("");
   const [openCombo_address, setCombo_addressOpen] = useState(false);
-  const [
-    inputValueCombo_address_list,
-    setinputValueCombo_address_list,
-  ] = useState([]);
+  const [inputValueCombo_address_list, setinputValueCombo_address_list] =
+    useState([]);
   const resultviewbox = useRef(null);
-
+  const Select_City_Cache = useRef({});
   const location_rout = useLocation();
 
   let UserCurrentLat;
@@ -189,9 +187,10 @@ function ParkingNear() {
         .then(function (response) {
           if (response.data.arr_UserFavoritesParking.length > 0) {
             response.data.arr_parkings.map((parking_item) => {
-              let favoritesParking_find_res = response.data.arr_UserFavoritesParking.find(
-                (fav_parking_id) => fav_parking_id === parking_item._id
-              );
+              let favoritesParking_find_res =
+                response.data.arr_UserFavoritesParking.find(
+                  (fav_parking_id) => fav_parking_id === parking_item._id
+                );
 
               if (favoritesParking_find_res === undefined) {
                 return parking_item;
@@ -234,22 +233,31 @@ function ParkingNear() {
     setDdlcityid(event.target.value);
     setDdlcityName(index.props.children);
     try {
-      axios
-        .get(`${config.api_url}/cities/GetCityStreetsNames/`, {
-          params: {
-            cityid: event.target.value,
-          },
-        })
-        .then(function (response) {
-          //console.log(response.data);
-          setinputValueCombo_address_list(response.data);
-          setisloading(false);
-        })
-        .catch(function (error) {
-          console.log(error);
-          setinputValueCombo_address_list([]);
-          setisloading(false);
-        });
+      if (Select_City_Cache.current[event.target.value]) {
+        setinputValueCombo_address_list(
+          Select_City_Cache.current[event.target.value]
+        );
+        setisloading(false);
+      } else {
+        axios
+          .get(`${config.api_url}/cities/GetCityStreetsNames/`, {
+            params: {
+              cityid: event.target.value,
+            },
+          })
+          .then(function (response) {
+            //console.log(response.data);
+            //console.log(event.target.value);
+            setinputValueCombo_address_list(response.data);
+            setisloading(false);
+            Select_City_Cache.current[event.target.value] = response.data; // set response in cache;
+          })
+          .catch(function (error) {
+            console.log(error);
+            setinputValueCombo_address_list([]);
+            setisloading(false);
+          });
+      }
     } catch (err) {
       console.log(err);
       setinputValueCombo_address_list([]);
@@ -405,7 +413,7 @@ function ParkingNear() {
                       />
                     </Grid>
 
-                    <Grid item xs={12} sm={6} md={6}>
+                    <Grid item xs={12} sm={6} md={6} ref={resultviewbox}>
                       <Button
                         type="submit"
                         fullWidth
@@ -418,7 +426,7 @@ function ParkingNear() {
                     </Grid>
                   </Grid>
 
-                  <Box mt={2} ref={resultviewbox}>
+                  <Box mt={2}>
                     {isloading && <LinearProgress />}
                     {!isloading && usererrormsg && usererrormsg}
                   </Box>

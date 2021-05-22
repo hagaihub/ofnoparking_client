@@ -22,7 +22,9 @@ import SearchIcon from "@material-ui/icons/Search";
 import { Helmet } from "react-helmet";
 import Divider from "@material-ui/core/Divider";
 import NumberCounter from "../../_components/NumberCounter.js";
-//import ofno_about_img from "../../images/ofno_about.png";
+import ofno_homepage_1 from "../../images/ofno_homepage_1.png";
+import ofno_homepage_2 from "../../images/ofno_homepage_2.png";
+import ofno_homepage_3 from "../../images/ofno_homepage_3.png";
 import { default as home_main_img } from "../../images/ofno_about.svg";
 
 const useStyles = makeStyles((theme) => ({
@@ -32,9 +34,8 @@ const useStyles = makeStyles((theme) => ({
   },
   Typographybody: {
     fontWeight: "bold",
-    fontSize: "50px",
+    fontSize: "28px",
     color: "#fafafa",
-    padding: "20px",
   },
   aboutimg: {
     width: "100%",
@@ -42,8 +43,17 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "900px",
   },
   homebottomback: {
-    height: "100vh",
+    height: "auto",
     background: "linear-gradient(to bottom, #005c97, #363795)",
+  },
+
+  home_page_mobile_img: {
+    width: "100%",
+    height: "auto",
+    maxWidth: "170px",
+    display: "block",
+    marginLeft: "auto",
+    marginRight: "auto",
   },
 }));
 
@@ -57,7 +67,7 @@ function Home() {
       </Helmet>
 
       <Container maxWidth="md">
-        <Box mt={10} mb={2}>
+        <Box mt={12} mb={8}>
           <Grid container justify="center" alignItems="center">
             <Grid item xs={12} md={7} lg={7}>
               <Box>
@@ -116,28 +126,100 @@ function Home() {
         <Divider />
         <Container maxWidth="lg">
           <Box mt={7}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6} md={6}>
-                <Typography
-                  variant="h2"
-                  align="center"
-                  paragraph
-                  className={classes.Typographybody}
-                >
-                  <NumberCounter label={""} number={"520"} duration={"2"} />+
-                  Parkings
-                </Typography>
+            <Grid
+              container
+              spacing={2}
+              display="flex"
+              direction="row"
+               
+              justify="center"
+              alignItems="center"
+            >
+              <Grid item xs={6} sm={6} md={6}>
+                <Box>
+                  <Typography
+                    align="center"
+                    className={classes.Typographybody}
+                    paragraph
+                  >
+                    <NumberCounter label={""} number={"520"} duration={"2"} />+
+                    motorcycle parkings in 3+ cities
+                  </Typography>
+                </Box>
               </Grid>
+              <Grid item xs={6} sm={6} md={6}>
+                <Box p={2}>
+                  <img
+                    src={ofno_homepage_1}
+                    alt="home_page_mobile_1"
+                    className={classes.home_page_mobile_img}
+                    loading="lazy"
+                  />
+                </Box>
+              </Grid>
+            </Grid>
 
-              <Grid item xs={12} sm={6} md={6}>
-                <Typography
-                  variant="h2"
-                  align="center"
-                  paragraph
-                  className={classes.Typographybody}
-                >
-                  3+ Cities
-                </Typography>
+            <Grid
+              container
+              spacing={2}
+              display="flex"
+              direction="row"
+               
+              alignItems="center"
+            >
+              <Grid item xs={6} sm={6} md={6}>
+                <Box>
+                  <Typography
+                    align="center"
+                    className={classes.Typographybody}
+                    paragraph
+                  >
+                    Use your current location and find the parking lot closest
+                    to you
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={6} sm={6} md={6}>
+                <Box p={2}>
+                  <img
+                    src={ofno_homepage_2}
+                    alt="home_page_mobile_2"
+                    className={classes.home_page_mobile_img}
+                    loading="lazy"
+                  />
+                </Box>
+              </Grid>
+            </Grid>
+
+            <Grid
+              container
+              spacing={2}
+              display="flex"
+              direction="row"
+               
+              alignItems="center"
+            >
+              <Grid item xs={6} sm={6} md={6}>
+                <Box mt={4}>
+                  <Typography
+                    align="center"
+                    className={classes.Typographybody}
+                    paragraph
+                  >
+                    Save your favorite parking lots and access them easily
+                    whenever you want
+                  </Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={6} sm={6} md={6}>
+                <Box p={2}>
+                  <img
+                    src={ofno_homepage_3}
+                    alt="home_page_mobile_3"
+                    className={classes.home_page_mobile_img}
+                    loading="lazy"
+                  />
+                </Box>
               </Grid>
             </Grid>
           </Box>
