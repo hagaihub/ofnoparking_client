@@ -15,7 +15,6 @@ import Passwordreset from "./pages/passwordreset/Passwordreset.js";
 import Myaccount from "./pages/myaccount/Myaccount.js";
 import Navbar from "./_components/Navbar.js";
 import PrivateRoute from "./_components/PrivateRoute.js";
-//import Dashboard from "./admin/Dashboard.js";
 import Box from "@material-ui/core/Box";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";

@@ -19,10 +19,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import moto_bg_1 from "../../images/moto_bg_1.jpg";
+import moto_bg_1 from "../../images/david-tip-Du_sCLMvcEY-unsplash.jpg";
 import { Helmet } from "react-helmet";
 import config from "../../config.js";
-
+import Fade from "@material-ui/core/Fade";
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
         ? theme.palette.grey[50]
         : theme.palette.grey[900],
     backgroundSize: "cover",
-    backgroundPosition: "center",
+    backgroundPosition: "center"
   },
   paper: {
     margin: theme.spacing(8, 4),
@@ -132,7 +132,9 @@ function Signin({ history }) {
       {isAuthenticated && <Redirect to="/favorites" />}
 
       <Grid container className={classes.root}>
-        <Grid item xs={false} sm={4} md={7} className={classes.image} />
+      <Fade in={true} timeout={500}>
+      <Grid item xs={false} sm={4} md={7} className={classes.image} />
+      </Fade>
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <div className={classes.paper}>
             <Avatar className={classes.avatar}>

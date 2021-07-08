@@ -1,12 +1,10 @@
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
-
 import Button from "@material-ui/core/Button";
 // import Card from "@material-ui/core/Card";
 // import CardActions from "@material-ui/core/CardActions";
 // import CardContent from "@material-ui/core/CardContent";
 // import CardMedia from "@material-ui/core/CardMedia";
-
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -25,26 +23,23 @@ import NumberCounter from "../../_components/NumberCounter.js";
 import ofno_homepage_1 from "../../images/ofno_homepage_1.png";
 import ofno_homepage_2 from "../../images/ofno_homepage_2.png";
 import ofno_homepage_3 from "../../images/ofno_homepage_3.png";
-import { default as home_main_img } from "../../images/ofno_about.svg";
+import moto_bg_1 from "../../images/josh-marshall-7waHOTcvcT4-unsplash.jpg";
 
 const useStyles = makeStyles((theme) => ({
   Typographyhead: {
     fontWeight: "bold",
-    color: "#4A4A4A",
+    color: "#ffffff",
   },
   Typographybody: {
     fontWeight: "bold",
     fontSize: "28px",
     color: "#fafafa",
   },
-  aboutimg: {
-    width: "100%",
-    height: "auto",
-    maxWidth: "900px",
-  },
+
   homebottomback: {
     height: "auto",
-    background: "linear-gradient(to bottom, #005c97, #363795)",
+    background:
+      "linear-gradient(90deg, rgba(58,132,247,1) 0%, rgba(185,209,247,1) 74%, rgba(245,247,251,1) 100%)",
   },
 
   home_page_mobile_img: {
@@ -54,6 +49,21 @@ const useStyles = makeStyles((theme) => ({
     display: "block",
     marginLeft: "auto",
     marginRight: "auto",
+  },
+
+  image: {
+    backgroundImage: "url(" + moto_bg_1 + ")",
+    backgroundRepeat: "no-repeat",
+    backgroundColor:
+      theme.palette.type === "light"
+        ? theme.palette.grey[50]
+        : theme.palette.grey[900],
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  },
+
+  topbox: {
+    height: "400px",
   },
 }));
 
@@ -66,61 +76,52 @@ function Home() {
         <title>OfnoParking</title>
       </Helmet>
 
-      <Container maxWidth="md">
-        <Box mt={12} mb={8}>
-          <Grid container justify="center" alignItems="center">
-            <Grid item xs={12} md={7} lg={7}>
-              <Box>
-                <Typography
-                  component="h1"
-                  variant="h3"
-                  color="textPrimary"
-                  //align="center"
-                  gutterBottom
-                  className={classes.Typographyhead}
-                >
-                  OfnoParking
-                </Typography>
-                <Typography
-                  variant="h5"
-                  color="textSecondary"
-                  paragraph
-                  className={classes.Typographyhead}
-                >
-                  Find parking for your motorcycle easily and quickly.
-                </Typography>
-                <Box pt={2}>
-                  <Grid container>
-                    <Grid item xs={12} md={8} lg={8}>
-                      <Button
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        component={RouterLink}
-                        to="/parkingnear"
-                        endIcon={<SearchIcon></SearchIcon>}
-                      >
-                        Search
-                      </Button>
+      <div className={classes.image}>
+        <Container maxWidth="lg">
+          <Box mt={7} className={classes.topbox}>
+            <Grid container>
+              <Grid item xs={12} md={6} lg={6}>
+                <Box mt={7}>
+                  <Typography
+                    component="h1"
+                    variant="h3"
+                    color="textPrimary"
+                    //align="center"
+                    gutterBottom
+                    className={classes.Typographyhead}
+                  >
+                    OfnoParking
+                  </Typography>
+                  <Typography
+                    variant="h5"
+                    color="textSecondary"
+                    paragraph
+                    className={classes.Typographyhead}
+                  >
+                    Find parking for your motorcycle easily and quickly.
+                  </Typography>
+                  <Box pt={1}>
+                    <Grid container>
+                      <Grid item xs={12} md={6} lg={6}>
+                        <Button
+                          fullWidth
+                          variant="contained"
+                          color="primary"
+                          component={RouterLink}
+                          to="/parkingnear"
+                          endIcon={<SearchIcon></SearchIcon>}
+                        >
+                          Search
+                        </Button>
+                      </Grid>
                     </Grid>
-                  </Grid>
+                  </Box>
                 </Box>
-              </Box>
+              </Grid>
             </Grid>
-
-            <Grid item xs={12} sm={5} md={5}>
-              <Box p={2}>
-                <img
-                  src={home_main_img}
-                  alt="ofno_about_img"
-                  className={classes.aboutimg}
-                  loading="lazy"
-                />
-              </Box>
-            </Grid>
-          </Grid>
-        </Box>
-      </Container>
+          </Box>
+        </Container>
+      </div>
 
       <div className={classes.homebottomback}>
         <Divider />
@@ -131,7 +132,6 @@ function Home() {
               spacing={2}
               display="flex"
               direction="row"
-               
               justify="center"
               alignItems="center"
             >
@@ -164,7 +164,6 @@ function Home() {
               spacing={2}
               display="flex"
               direction="row"
-               
               alignItems="center"
             >
               <Grid item xs={6} sm={6} md={6}>
@@ -196,7 +195,6 @@ function Home() {
               spacing={2}
               display="flex"
               direction="row"
-               
               alignItems="center"
             >
               <Grid item xs={6} sm={6} md={6}>

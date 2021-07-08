@@ -7,7 +7,7 @@ import Paper from "@material-ui/core/Paper";
 //import Hidden from "@material-ui/core/Hidden";
 import { makeStyles } from "@material-ui/core/styles";
 import { Helmet } from "react-helmet";
-import { default as home_main_img } from "../../images/ofno_about.svg";
+
 
 const useStyles = makeStyles((theme) => ({
   aboutimg: {
@@ -67,12 +67,7 @@ function About() {
           {/* <Hidden only="xs"> */}
           <Grid item xs={12} sm={6} md={6}>
             <Box p={4}>
-              <img
-                src={home_main_img}
-                alt="ofno_about_img"
-                className={classes.aboutimg}
-                loading="lazy"
-              />
+              
             </Box>
           </Grid>
           {/* </Hidden> */}
